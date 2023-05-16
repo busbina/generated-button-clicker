@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+
+<head>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <title>Increment and Decrement Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background: linear-gradient(to bottom, #00008B, #001F3F, #00008B);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .small-button {
+            width: 200px;
+            height: 50px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .blue-button {
+            background-color: blue;
+            color: white;
+            /* Improved contrast with white text color */
+        }
+
+        .yellow-button {
+            background-color: #CCCC00;
+            /* Darker yellow color */
+            color: black;
+            /* Improved contrast with black text color */
+        }
+        
+        .fab-button {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          background-color: red;
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="height: 100vh;overflow: hidden;">
+    <div class="container">
+        <div class="button" id="counterButton">0</div>
+        <div class="small-button blue-button" id="incrementButton">Increment</div>
+        <div class="small-button yellow-button" id="decrementButton">Decrement</div>
+    </div>
+    <div class="fab-button" id="resetButton">Reset</div>
+    <script>
+        var counter = getCookie('counter');
+        var button = document.getElementById('counterButton');
+        var incrementButton = document.getElementById('incrementButton');
+        var decrementButton = document.getElementById('decrementButton');
+        var resetButton = document.getElementById('resetButton');
+
+        if (counter) {
+            button.innerHTML = counter;
+        }
+        
+        resetButton.addEventListener('click', function() {
+          counter = 0;
+          button.innerHTML = counter;
+          setCookie('counter', counter, 365);
+        });
+
+        incrementButton.addEventListener('click', function () {
+            counter++;
+            button.innerHTML = counter;
+            setCookie('counter', counter, 365);
+        });
+
+        decrementButton.addEventListener('click', function () {
+            if (counter > 0) {
+                counter--;
+                button.innerHTML = counter;
+                setCookie('counter', counter, 365);
+            }
+        });
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+    </script>
+
+</body>
+
+</html>
